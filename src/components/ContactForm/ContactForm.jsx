@@ -1,62 +1,73 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormButton, FormInput, FormLabel } from './ContactForm.styled';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+const ContactForm = ({ createContact }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  // const handleChangeName = ({ target }) => {
+  //   setName(target.value);
+  // };
+
+  // const handleChangeNumber = ({ target }) => {
+  //   setNumber(target.value);
+  // };
+
+  const handleChahge = event => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+
+      case 'number':
+        setNumber(value);
+        break;
+
+      default:
+        return;
+    }
   };
 
-  handleChange = ({ target }) => {
-    this.setState({
-      [target.name]: target.value,
-    });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    // this.props.createContact({
-    //   name: this.state.name,
-    //   number: this.state.number
-    // })
-    this.props.createContact(this.state);
-
-    this.setState({
-      name: '',
-      number: '',
+    createContact({
+      name,
+      number,
     });
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormLabel htmlFor="name">
-          Name
-          <FormInput
-            type="text"
-            name="name"
-            onChange={this.handleChange}
-            value={this.state.name}
-            required
-          />
-        </FormLabel>
-        <FormLabel htmlFor="name">
-          Number
-          <FormInput
-            type="tel"
-            name="number"
-            onChange={this.handleChange}
-            value={this.state.number}
-            required
-          />
-        </FormLabel>
-        <FormButton type="submit">Add contact</FormButton>
-      </Form>
-    );
-  }
-}
+  return (
+    <Form onSubmit={handleSubmit}>
+      <FormLabel htmlFor="name">
+        Name
+        <FormInput
+          type="text"
+          name="name"
+          onChange={handleChahge}
+          value={name}
+          required
+        />
+      </FormLabel>
+      <FormLabel htmlFor="name">
+        Number
+        <FormInput
+          type="tel"
+          name="number"
+          onChange={handleChahge}
+          value={number}
+          required
+        />
+      </FormLabel>
+      <FormButton type="submit">Add contact</FormButton>
+    </Form>
+  );
+};
 
 ContactForm.propTypes = {
   createContact: PropTypes.func,
