@@ -32,15 +32,14 @@ const App = () => {
     const check = contacts.find(contact => contact.name === newContact.name);
     check
       ? alert(`${newContact.name} is already in contacts`)
-      : setContacts([...contacts, newContact]);
-    // setContacts(prevState => [...prevState.contacts, newContact]
+      : setContacts(prevState => [...prevState, newContact]);
   };
 
   const deleteContact = contactId => {
-    // setContacts(prevItems =>
-    //   prevItems.contacts.filter(contact => contact.id !== contactId)
-    // );
-    setContacts(contacts.filter(contact => contact.id !== contactId));
+    setContacts(prevItems =>
+      prevItems.filter(contact => contact.id !== contactId)
+    );
+    // setContacts(contacts.filter(contact => contact.id !== contactId));
   };
 
   const changeFilter = e => {
